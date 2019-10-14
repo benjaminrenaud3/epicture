@@ -15,11 +15,22 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import org.json.JSONObject
+import okhttp3.*
+
 
 class MainActivity : AppCompatActivity() {
 
-    private val request = ImgurRequest()
-    private val lambdaMainActivity : MainActivity = this
+    private val mainActivityInstance = this
+    val request = ImgurRequest()
+    val finder = ImgurFinder()
+    val galeryUrl = "https://api.imgur.com/3/gallery/user/rising/0.json"
+    val clientId = "Client-ID e7296bdc089bf0e"
+    val appName = "epicture"
+    val time = "viral"
+    val date = "top"
+    val page = 2
+    val toSearch = "zizi"
 
     private class PhotoVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var photo: ImageView? = null
@@ -31,16 +42,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        request.fetchData(lambdaMainActivity)
-        Log.e("MainActivity", "finit")
-
+        // que ce passe t'il quand on a plusieurs truc a la fois ?
+        // FAIRE DES BOUTONS
+        //finder.SortPicture(mainActivityInstance, this::displayPicture)
+        finder.SearchImage(mainActivityInstance, this::displayPicture)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "mange ta mere", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "hey", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
     }
 
-    fun display(photos: ArrayList<ImgurRequest.Photo>) {
+    fun drawGallery() {
+        request.getRequest(galeryUrl, clientId, appName, this::displayPicture)
+    }
+
+    fun displayPicture(response: Response) {
+        val photos = ArrayList<ImgurRequest.Photo>()
+        val data = JSONObject(response.body()?.string())
+        val items = data.getJSONArray("data")
+
+        for (i in 0 until items.length()) {
+            val item = items.getJSONObject(i)
+            val photo = ImgurRequest.Photo()
+            if (item.getBoolean("is_album"))
+                photo.id = item.getString("cover")
+            else
+                photo.id = item.getString("id")
+            photo.title = item.getString("title")
+            photos.add(photo)
+        }
         runOnUiThread { render(photos) }
     }
 

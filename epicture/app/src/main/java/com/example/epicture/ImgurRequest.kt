@@ -4,46 +4,60 @@ import android.util.Log
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+
+
 
 class ImgurRequest
 {
     private var httpClient = OkHttpClient()
-    private var TAG = "Request"
 
     class Photo {
         internal var id: String? = null
         internal var title: String? = null
     }
 
-    fun fetchData(mainActivity: MainActivity) {
+    fun getRequest(url: String, clientId: String, appName: String, callback : (response : Response) -> Unit) {
 
         httpClient = OkHttpClient.Builder().build()
             val request = Request.Builder()
-            .url("https://api.imgur.com/3/gallery/user/rising/0.json")
-            .header("Authorization", "Client-ID e7296bdc089bf0e")
-            .header("User-Agent", "epicture")
+            .url(url)
+            .header("Authorization", clientId)
+            .header("User-Agent", appName)
             .build()
         httpClient.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e(TAG, "An error has occurred $e")
+                Log.e("GET REQUEST", "An error has occurred $e")
             }
             @Override
             override fun onResponse(call: Call, response: Response) {
-                val photos = ArrayList<Photo>()
-                val data = JSONObject(response.body()?.string())
-                val items = data.getJSONArray("data")
+                callback(response)
+            }
+        })
+    }
 
-                for (i in 0 until items.length()) {
-                    val item = items.getJSONObject(i)
-                    val photo = Photo()
-                    if (item.getBoolean("is_album"))
-                        photo.id = item.getString("cover")
-                    else
-                        photo.id = item.getString("id")
-                    photo.title = item.getString("title")
-                    photos.add(photo)
-                }
-                mainActivity.display(photos)
+    fun postRequest(url: String, clientId: String, appName: String, content : String, callback : (response : Response) -> Unit)
+    {
+        val formBody = FormBody.Builder()
+            .add("message", "Your message")
+            .build()
+        val request = Request.Builder()
+            .url(url)
+            .post(formBody)
+            .header("Authorization", clientId)
+            .header("User-Agent", appName)
+            .build()
+
+        httpClient = OkHttpClient.Builder().build()
+        httpClient.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("POST REQUEST", "An error has occurred $e")
+            } @Override
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.e("POST REQUEST", " dans OnResponse")
+                callback(response)
             }
         })
     }
