@@ -1,6 +1,7 @@
 package com.example.epicture
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -50,6 +51,29 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "hey", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        recupToken()
+
+        //bouton connexion
+        connexionButton.setOnClickListener {
+            val monIntent : Intent =  Intent(this,Webview::class.java)
+            startActivity(monIntent)
+        }
+    }
+
+    fun recupToken() {
+        //Recuperation du token du a la page de connexion imgur
+        val intent = intent
+        if (intent != null) {
+            var accessToken = ""
+            var refreshToken = ""
+            if (intent.hasExtra("AccessToken"))
+                accessToken = intent.getStringExtra("AccessToken")
+            if (intent.hasExtra("RefreshToken"))
+                refreshToken = intent.getStringExtra("RefreshToken")
+            println("Token :")
+            println(refreshToken)
+            println(accessToken)
+        }
     }
 
     fun drawGallery() {
@@ -76,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     fun render(photos: ArrayList<ImgurRequest.Photo>) {
         val rv = findViewById<RecyclerView>(R.id.rv_of_photos)
-        rv.layoutManager = LinearLayoutManager(this)
+        rv.layoutManager = LinearLayoutManager(this) as RecyclerView.LayoutManager?
 
         val adapter = object: RecyclerView.Adapter<PhotoVH>() {
             @SuppressLint("InflateParams")

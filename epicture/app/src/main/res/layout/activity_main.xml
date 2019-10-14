@@ -18,6 +18,14 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay"/>
+        <Button
+                android:id="@+id/connexionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="login"
+                android:visibility="visible"
+                android:layout_marginStart="300sp"
+                tools:visibility="visible" />
 
     </android.support.design.widget.AppBarLayout>
 
