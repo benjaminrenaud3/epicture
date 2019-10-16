@@ -9,7 +9,8 @@ class ImgurFinder
 {
     fun SearchImage(mainActivityInstance: MainActivity, callback : (response : Response) -> Unit)
     {
-        val searchUrl = "https://api.imgur.com/3/gallery/search/?q=" + mainActivityInstance.toSearch + "&q_all"
+        val searchUrl = "https://api.imgur.com/3/gallery/search/${mainActivityInstance.page}/?q=" + mainActivityInstance.toSearch + "&q_all"
+        //val searchUrl = "https://api.imgur.com/3/gallery/search/${mainActivityInstance.time}/${mainActivityInstance.date}/${mainActivityInstance.page}?q=cats"
 
         mainActivityInstance.request.getRequest(
             searchUrl,

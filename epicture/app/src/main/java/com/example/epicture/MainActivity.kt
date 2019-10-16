@@ -3,11 +3,9 @@ package com.example.epicture
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -30,8 +28,8 @@ class MainActivity : AppCompatActivity() {
     val appName = "epicture"
     val time = "viral"
     val date = "top"
-    val page = 2
-    val toSearch = "zizi"
+    var page = "2"
+    var toSearch = "zizi"
 
     private class PhotoVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var photo: ImageView? = null
@@ -46,17 +44,20 @@ class MainActivity : AppCompatActivity() {
         // que ce passe t'il quand on a plusieurs truc a la fois ?
         // FAIRE DES BOUTONS
         //finder.SortPicture(mainActivityInstance, this::displayPicture)
-        finder.SearchImage(mainActivityInstance, this::displayPicture)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "hey", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
         recupToken()
 
         //bouton connexion
-        connexionButton.setOnClickListener {
+        loginButton.setOnClickListener {
             val monIntent : Intent =  Intent(this,Webview::class.java)
             startActivity(monIntent)
+        }
+
+        SearchButton.setOnClickListener {
+            val tonTexte = SearchPage.text.toString()
+            toSearch = Search.text.toString()
+            page =  SearchPage.text.toString()
+            finder.SearchImage(mainActivityInstance, this::displayPicture)
         }
     }
 
@@ -65,14 +66,11 @@ class MainActivity : AppCompatActivity() {
         val intent = intent
         if (intent != null) {
             var accessToken = ""
-            var refreshToken = ""
+            var Username = ""
             if (intent.hasExtra("AccessToken"))
                 accessToken = intent.getStringExtra("AccessToken")
-            if (intent.hasExtra("RefreshToken"))
-                refreshToken = intent.getStringExtra("RefreshToken")
-            println("Token :")
-            println(refreshToken)
-            println(accessToken)
+            if (intent.hasExtra("Username"))
+                Username = intent.getStringExtra("Username")
         }
     }
 

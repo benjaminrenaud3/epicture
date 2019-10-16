@@ -14,9 +14,9 @@ class Webview : AppCompatActivity() {
         return words[2]
     }
 
-    fun getRefreshToken(string: String): String {
+    fun getUsername(string: String): String {
         val words = string.split("=", "&")
-        return words[8]
+        return words[10]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,15 +25,15 @@ class Webview : AppCompatActivity() {
         val monIntent = Intent(this, MainActivity::class.java)
         var mywebview: WebView? = null
         var access_token: String
-        var refresh_token: String
+        var Username: String
         mywebview = findViewById<WebView>(R.id.WebView)
         mywebview!!.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 if (url != "https://api.imgur.com/oauth2/authorize?client_id=3b2d4847669fb6c&response_type=token&state=valide\n") {
                     access_token = getAccessToken(url.toString())
-                    refresh_token = getRefreshToken(url.toString())
+                    Username = getUsername(url.toString())
                     monIntent.putExtra("AccessToken", access_token)
-                    monIntent.putExtra("RefreshToken", refresh_token)
+                    monIntent.putExtra("Username", Username)
                     startActivity(monIntent)
                 }
                 view?.loadUrl(url)
