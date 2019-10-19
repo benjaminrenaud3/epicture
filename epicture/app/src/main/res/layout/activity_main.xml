@@ -34,7 +34,7 @@
                     android:layout_height="?attr/actionBarSize"
                     android:ems="5"
                     android:inputType="textPersonName"
-                    android:text="Search"
+                    android:hint="Search"
                     android:layout_marginTop="?attr/actionBarSize"
                     android:textColor="#FFFFFF" />
             <EditText
@@ -43,19 +43,20 @@
                     android:layout_height="?attr/actionBarSize"
                     android:ems="3"
                     android:inputType="number"
+                    android:hint="page"
                     android:layout_marginTop="?attr/actionBarSize"
                     android:layout_marginStart="110sp"
                     android:textColor="#FFFFFF" />
-
-            <EditText
+            <NumberPicker
                     android:id="@+id/SearchSort"
                     android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
-                    android:ems="5"
+                    android:ems="4"
                     android:layout_marginTop="?attr/actionBarSize"
-                    android:layout_marginStart="220sp"
+                    android:layout_marginStart="200sp"
                     android:textColor="#FFFFFF"
-                    android:inputType="textMultiLine" />
+                    />
+
             <Button
                     android:id="@+id/SearchButton"
                     android:layout_width="50sp"

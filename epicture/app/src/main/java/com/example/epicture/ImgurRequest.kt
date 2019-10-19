@@ -2,7 +2,6 @@ package com.example.epicture
 
 import android.util.Log
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -47,6 +46,32 @@ class ImgurRequest
             .post(formBody)
             .header("Authorization", clientId)
             .header("User-Agent", appName)
+            .build()
+
+        httpClient = OkHttpClient.Builder().build()
+        httpClient.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("POST REQUEST", "An error has occurred $e")
+            } @Override
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.e("POST REQUEST", " dans OnResponse")
+                callback(response)
+            }
+        })
+    }
+
+    fun AddToMyFav(mainActivityInstance: MainActivity, id: String?, callback : (response : Response) -> Unit)
+    {
+        val url = "https://api.imgur.com/3/image/$id/favorite"
+        val formBody = FormBody.Builder()
+            .add("message", "")
+            .build()
+        val request = Request.Builder()
+            .url(url)
+            .post(formBody)
+            .header("Authorization", "Bearer ${mainActivityInstance.accessToken}")
+            .header("User-Agent", "epicture")
             .build()
 
         httpClient = OkHttpClient.Builder().build()

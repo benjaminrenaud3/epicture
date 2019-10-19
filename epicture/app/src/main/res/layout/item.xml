@@ -19,5 +19,12 @@
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:layout_margin="8dp"
                 android:textAlignment="center"/>
+        <CheckBox
+                android:id="@+id/favBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"
+                android:text="favorite" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
