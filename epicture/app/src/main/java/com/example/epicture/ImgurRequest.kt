@@ -2,11 +2,9 @@ package com.example.epicture
 
 import android.util.Log
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
-
 
 
 class ImgurRequest
@@ -37,7 +35,7 @@ class ImgurRequest
         })
     }
 
-    fun postRequest(url: String, clientId: String, appName: String, content : String, callback : (response : Response) -> Unit)
+    fun postRequest(url: String, clientId: String, appName: String, callback : (response : Response) -> Unit)
     {
         val formBody = FormBody.Builder()
             .add("message", "Your message")
@@ -47,6 +45,31 @@ class ImgurRequest
             .post(formBody)
             .header("Authorization", clientId)
             .header("User-Agent", appName)
+            .build()
+
+        httpClient = OkHttpClient.Builder().build()
+        httpClient.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("POST REQUEST", "An error has occurred $e")
+            } @Override
+
+            override fun onResponse(call: Call, response: Response) {
+                Log.e("POST REQUEST", " dans OnResponse")
+                callback(response)
+            }
+        })
+    }
+
+    fun imagePostRequest(url: String, clientId: String, callback: (response : Response) -> Unit)
+    {
+
+        val formBody = FormBody.Builder()
+            .build()
+            //hashMap
+        val request = Request.Builder()
+            .url(url)
+            .post(formBody)
+            .header("Authorization", clientId)
             .build()
 
         httpClient = OkHttpClient.Builder().build()

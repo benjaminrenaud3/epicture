@@ -7,73 +7,80 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"/>
-            <Button
-                    android:id="@+id/loginButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="?attr/actionBarSize"
-                    android:text="login"
-                    android:visibility="visible"
-                    android:layout_marginStart="300sp"
-                    tools:visibility="visible" />
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+    <Button
+            android:id="@+id/loginButton"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:text="login"
+            android:visibility="visible"
+            android:layout_marginStart="300sp"
+            tools:visibility="visible" />
 
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar2"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"/>
-            <EditText
-                    android:id="@+id/Search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="?attr/actionBarSize"
-                    android:ems="5"
-                    android:inputType="textPersonName"
-                    android:text="Search"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:textColor="#FFFFFF" />
-            <EditText
-                    android:id="@+id/SearchPage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="?attr/actionBarSize"
-                    android:ems="3"
-                    android:inputType="number"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:layout_marginStart="110sp"
-                    android:textColor="#FFFFFF" />
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"/>
+    <EditText
+            android:id="@+id/Search"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:ems="5"
+            android:inputType="textPersonName"
+            android:text="Search"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:textColor="#FFFFFF" />
+    <EditText
+            android:id="@+id/SearchPage"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:ems="3"
+            android:inputType="number"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginStart="110sp"
+            android:textColor="#FFFFFF" />
 
-            <EditText
-                    android:id="@+id/SearchSort"
-                    android:layout_width="wrap_content"
-                    android:layout_height="?attr/actionBarSize"
-                    android:ems="5"
-                    android:layout_marginTop="?attr/actionBarSize"
-                    android:layout_marginStart="220sp"
-                    android:textColor="#FFFFFF"
-                    android:inputType="textMultiLine" />
-            <Button
-                    android:id="@+id/SearchButton"
-                    android:layout_width="50sp"
-                    android:layout_height="40sp"
-                    android:text="Go"
-                    android:visibility="visible"
-                    android:layout_marginTop="60sp"
-                    android:layout_marginStart="340sp"
-                    tools:visibility="visible" />
-
+    <EditText
+            android:id="@+id/SearchSort"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:ems="5"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:layout_marginStart="220sp"
+            android:textColor="#FFFFFF"
+            android:inputType="textMultiLine" />
+    <Button
+            android:id="@+id/SearchButton"
+            android:layout_width="50sp"
+            android:layout_height="40sp"
+            android:text="Go"
+            android:visibility="visible"
+            android:layout_marginTop="60sp"
+            android:layout_marginStart="340sp"
+            tools:visibility="visible" />
 
     <include layout="@layout/content_main"/>
 
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@android:drawable/ic_dialog_email"/>
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_of_photos"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="110sp">
+            android:id="@+id/rv_of_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="110sp">
 
     </android.support.v7.widget.RecyclerView>
 

@@ -3,6 +3,7 @@ package com.example.epicture
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -28,8 +29,8 @@ class MainActivity : AppCompatActivity() {
     val appName = "epicture"
     val time = "viral"
     val date = "top"
-    var page = "2"
-    var toSearch = "zizi"
+    var page = ""
+    var toSearch = ""
 
     private class PhotoVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var photo: ImageView? = null
@@ -41,22 +42,26 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        // que ce passe t'il quand on a plusieurs truc a la fois ?
-        // FAIRE DES BOUTONS
         //finder.SortPicture(mainActivityInstance, this::displayPicture)
-
         recupToken()
 
         //bouton connexion
         loginButton.setOnClickListener {
-            val monIntent : Intent =  Intent(this,Webview::class.java)
-            startActivity(monIntent)
+            val view = Intent(this, Webview::class.java)
+            startActivity(view)
+        }
+
+        val upload_intent = Intent(this, ImgurUploader::class.java)
+
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Gallery", Snackbar.LENGTH_LONG)
+            startActivity(upload_intent)
         }
 
         SearchButton.setOnClickListener {
             val tonTexte = SearchPage.text.toString()
             toSearch = Search.text.toString()
-            page =  SearchPage.text.toString()
+            page = SearchPage.text.toString()
             finder.SearchImage(mainActivityInstance, this::displayPicture)
         }
     }
