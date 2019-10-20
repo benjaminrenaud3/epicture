@@ -10,7 +10,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker.checkSelfPermission
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.upload.*
 import okhttp3.*
 import android.Manifest
@@ -36,8 +35,6 @@ class ImgurUploader : AppCompatActivity()
             IMAGE_REQUEST_CODE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.upload)
-        setSupportActionBar(toolbar)
-        Log.e("on create", "on create")
         initView()
     }
 
@@ -45,6 +42,7 @@ class ImgurUploader : AppCompatActivity()
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
+
         startActivityForResult(
             Intent.createChooser(
                 intent,
@@ -66,7 +64,11 @@ class ImgurUploader : AppCompatActivity()
         }
     }
 
-    private fun uploadImage() {
+    private fun uploadImage()
+    {
+        if (!::imageUri.isInitialized) {
+            return
+        }
         val accessToken = intent.getStringExtra("accessToken")
         val imgurService = Retrofit.Builder()
             .baseUrl("https://api.imgur.com")
@@ -74,17 +76,21 @@ class ImgurUploader : AppCompatActivity()
             .build()
             .create(ImgurService::class.java)
         val image = File(getPathFromUri(imageUri))
-        val requestFile = RequestBody.create(MediaType.parse(contentResolver.getType(imageUri)), image)
+        val requestFile =
+            RequestBody.create(MediaType.parse(contentResolver.getType(imageUri)), image)
         val imageBody = MultipartBody.Part.createFormData("image", image.name, requestFile)
         val titleBody = RequestBody.create(MultipartBody.FORM, imageTitle.text.toString())
-        val descriptionBody = RequestBody.create(MultipartBody.FORM, imageDescription.text.toString())
+        val descriptionBody =
+            RequestBody.create(MultipartBody.FORM, imageDescription.text.toString())
         val optionalBody = mapOf("title" to titleBody, "description" to descriptionBody)
         val call = imgurService.uploadImage("Bearer $accessToken", imageBody, optionalBody)
 
         call.enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>,
-                                    response: Response<ResponseBody>) {
-                Log.e("token",  accessToken)
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                Log.e("token", accessToken)
                 Log.v("Upload", "response:")
                 Log.v("test", response.toString())
                 Log.v("Upload", "success")

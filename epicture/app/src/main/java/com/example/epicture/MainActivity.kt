@@ -78,10 +78,11 @@ class MainActivity : AppCompatActivity() {
         val upload_intent = Intent(this, ImgurUploader::class.java)
         upload_intent.putExtra("accessToken", accessToken)
 
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Gallery", Snackbar.LENGTH_LONG)
-            startActivity(upload_intent)
+        if (Username != "") {
+            fab.setOnClickListener { view ->
+                Snackbar.make(view, "Gallery", Snackbar.LENGTH_LONG)
+                startActivity(upload_intent)
+            }
         }
 
         SearchButton.setOnClickListener {

@@ -10,6 +10,7 @@
         <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:id="@+id/photo"/>
         <TextView
@@ -18,6 +19,7 @@
                 android:id="@+id/title"
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:layout_margin="8dp"
+                android:layout_gravity="center"
                 android:textAlignment="center"/>
         <CheckBox
                 android:id="@+id/favBox"
