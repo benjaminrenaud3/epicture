@@ -31,6 +31,9 @@ class ImgurUploader : AppCompatActivity()
     private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ActivityCompat.requestPermissions(this,
+            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+            IMAGE_REQUEST_CODE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.upload)
         setSupportActionBar(toolbar)
@@ -99,9 +102,6 @@ class ImgurUploader : AppCompatActivity()
         val column = arrayOf(MediaStore.Images.Media.DATA)
         val sel = MediaStore.Images.Media._ID + "=?"
 
-        ActivityCompat.requestPermissions(this,
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-            IMAGE_REQUEST_CODE)
         if (checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             val cursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, sel, arrayOf(id), null)
             var filePath: String? = null
