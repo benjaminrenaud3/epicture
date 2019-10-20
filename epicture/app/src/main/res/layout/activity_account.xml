@@ -11,9 +11,11 @@
             android:layout_height="match_parent">
     <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="380sp"
             android:layout_height="wrap_content"
             android:text="TextView"
+            android:textSize="50sp"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </android.support.v7.widget.LinearLayoutCompat>
@@ -27,6 +29,8 @@
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:layout_marginStart="110sp"
             android:text="image" />
 
     <Button
@@ -34,8 +38,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="fav"
-            tools:layout_editor_absoluteX="292dp" />
+            android:layout_marginTop="50sp"/>
     </android.support.v7.widget.LinearLayoutCompat>
+
     <include layout="@layout/content_main"/>
 
     <android.support.v7.widget.RecyclerView

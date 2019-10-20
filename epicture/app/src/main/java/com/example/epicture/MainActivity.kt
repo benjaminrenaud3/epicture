@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     val appName = "epicture"
     var time = ""
     var page = ""
-    var toSearch = ""
+    var toSearch = "jordan"
     var previous = ""
 
     private class PhotoVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
