@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     val appName = "epicture"
     var time = ""
     var page = ""
-    var toSearch = ""
+    var toSearch = "jordan"
     var previous = ""
 
     private class PhotoVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -64,11 +64,11 @@ class MainActivity : AppCompatActivity() {
         //Connection bouton
         loginButton.setOnClickListener {
             if (Username == "") {
-                val monIntent: Intent = Intent(this, Webview::class.java)
+                val monIntent = Intent(this, Webview::class.java)
                 startActivity(monIntent)
             }
             else {
-                val monIntent: Intent = Intent(this, Account::class.java)
+                val monIntent = Intent(this, Account::class.java)
                 monIntent.putExtra("AccessToken", accessToken)
                 monIntent.putExtra("Username", Username)
                 startActivity(monIntent)
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         SearchButton.setOnClickListener {
-            val tonTexte = SearchPage.text.toString()
+            SearchPage.text.toString()
             toSearch = Search.text.toString()
             page =  SearchPage.text.toString()
             time = SearchSort.value.toString()
@@ -103,26 +103,8 @@ class MainActivity : AppCompatActivity() {
                 accessToken = intent.getStringExtra("AccessToken")
             if (intent.hasExtra("Username")) {
                 Username = intent.getStringExtra("Username")
-                //finder.SearchFav(mainActivityInstance, this::AssignFav)
                 loginButton.text = "Account"
             }
-        }
-    }
-
-    fun drawGallery() {
-        request.getRequest(galeryUrl, clientId, appName, this::displayPicture)
-    }
-
-    fun AssignFav (response: Response) {
-        val data = JSONObject(response.body()?.string())
-        val items = data.getJSONArray("data")
-
-        for (i in 0 until items.length()) {
-            val item = items.getJSONObject(i)
-            if (item.getBoolean("is_album"))
-                fav.add(item.getString("cover"))
-            else
-                fav.add(item.getString("id"))
         }
     }
 
@@ -147,16 +129,11 @@ class MainActivity : AppCompatActivity() {
     private fun favHandler(id: String)
     {
         val tmp = CheckFav()
-        /*for (i in 0 until fav.size) {
-            if (id == fav[i]) {
-                this.findViewById<CheckBox>(R.id.favBox)?.isChecked
-                return
-            }
-        }*/
+
         if (previous == "")
             previous = id
         else {
-            tmp.box =  this.findViewById<CheckBox>(R.id.favBox)
+            tmp.box =  this.findViewById(R.id.favBox)
             tmp.id = previous
             previous = id
             allCheckBox.add(tmp)

@@ -12,16 +12,15 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"/>
-
-
     <Button
             android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
+            android:layout_width="100sp"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginStart="300sp"
             android:text="login"
             android:visibility="visible"
+            android:layout_marginStart="250sp"
             tools:visibility="visible" />
+
 
     <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar2"
@@ -40,7 +39,7 @@
             android:textColor="#FFFFFF" />
     <EditText
             android:id="@+id/SearchPage"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="?attr/actionBarSize"
             android:ems="3"
             android:hint="page"
@@ -54,21 +53,18 @@
             android:layout_height="?attr/actionBarSize"
             android:ems="4"
             android:layout_marginTop="?attr/actionBarSize"
-            android:layout_marginStart="200sp"
+            android:layout_marginStart="180sp"
             android:textColor="#FFFFFF"
             />
     <Button
             android:id="@+id/SearchButton"
-            android:layout_width="50sp"
+            android:layout_width="60sp"
             android:layout_height="40sp"
             android:text="Go"
             android:visibility="visible"
             android:layout_marginTop="60sp"
-            android:layout_marginStart="340sp"
+            android:layout_marginStart="280sp"
             tools:visibility="visible" />
-
-
-    <include layout="@layout/content_main" />
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -80,10 +76,10 @@
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_of_photos"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="110sp">
-
     </android.support.v7.widget.RecyclerView>
 
 </android.support.design.widget.CoordinatorLayout>
