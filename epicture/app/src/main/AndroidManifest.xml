@@ -3,6 +3,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         package="com.example.epicture">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -12,16 +16,17 @@
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-                android:name=".Webview">
-        </activity>
+                android:name=".AccountPage"
+                android:label="@string/title_activity_account_page" />
+        <activity android:name=".Webview" />
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -31,9 +36,5 @@
                 android:theme="@style/AppTheme.NoActionBar"
         />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>

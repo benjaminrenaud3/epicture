@@ -46,16 +46,15 @@
             android:layout_marginTop="?attr/actionBarSize"
             android:layout_marginStart="110sp"
             android:textColor="#FFFFFF" />
-
-    <EditText
+    <NumberPicker
             android:id="@+id/SearchSort"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
-            android:ems="5"
+            android:ems="4"
             android:layout_marginTop="?attr/actionBarSize"
-            android:layout_marginStart="220sp"
+            android:layout_marginStart="200sp"
             android:textColor="#FFFFFF"
-            android:inputType="textMultiLine" />
+            />
     <Button
             android:id="@+id/SearchButton"
             android:layout_width="50sp"
@@ -65,6 +64,7 @@
             android:layout_marginTop="60sp"
             android:layout_marginStart="340sp"
             tools:visibility="visible" />
+
 
     <include layout="@layout/content_main"/>
 

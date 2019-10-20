@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,41 +18,62 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 import okhttp3.*
-
+import android.widget.CheckBox
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainActivityInstance = this
+    val mainActivityInstance = this
     val request = ImgurRequest()
     val finder = ImgurFinder()
     val galeryUrl = "https://api.imgur.com/3/gallery/user/rising/0.json"
     val clientId = "Client-ID e7296bdc089bf0e"
+    var accessToken = ""
+    var Username = ""
+    var fav = ArrayList<String>()
     val appName = "epicture"
-    val time = "viral"
-    val date = "top"
+    var time = ""
     var page = ""
     var toSearch = ""
+    var previous = ""
 
     private class PhotoVH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var photo: ImageView? = null
         internal var title: TextView? = null
-        internal var photos_list = null
     }
+
+    class CheckFav {
+        internal var box: CheckBox? = null
+        internal var id: String? = null
+    }
+
+    var allCheckBox = ArrayList<CheckFav>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        //finder.SortPicture(mainActivityInstance, this::displayPicture)
+        SearchSort.minValue = 0
+        SearchSort.maxValue = 1
+        SearchSort.displayedValues = arrayOf("time", "viral")
+        Log.e("acess token in onCreate", accessToken)
+
+        finder.SearchImage(mainActivityInstance, this::displayPicture)
+
         recupToken()
 
-        //bouton connexion
+        //Connection bouton
         loginButton.setOnClickListener {
+            if (Username == "") {
+                val monIntent: Intent = Intent(this, Webview::class.java)
+                startActivity(monIntent)
+            }
             val view = Intent(this, Webview::class.java)
             startActivity(view)
         }
 
         val upload_intent = Intent(this, ImgurUploader::class.java)
+        upload_intent.putExtra("accessToken", accessToken)
+
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Gallery", Snackbar.LENGTH_LONG)
@@ -61,26 +83,42 @@ class MainActivity : AppCompatActivity() {
         SearchButton.setOnClickListener {
             val tonTexte = SearchPage.text.toString()
             toSearch = Search.text.toString()
-            page = SearchPage.text.toString()
+            page =  SearchPage.text.toString()
+            time = SearchSort.value.toString()
             finder.SearchImage(mainActivityInstance, this::displayPicture)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     fun recupToken() {
         //Recuperation du token du a la page de connexion imgur
         val intent = intent
         if (intent != null) {
-            var accessToken = ""
-            var Username = ""
             if (intent.hasExtra("AccessToken"))
                 accessToken = intent.getStringExtra("AccessToken")
-            if (intent.hasExtra("Username"))
+            if (intent.hasExtra("Username")) {
                 Username = intent.getStringExtra("Username")
+                //finder.SearchFav(mainActivityInstance, this::AssignFav)
+                loginButton.text = "Account"
+            }
         }
     }
 
     fun drawGallery() {
         request.getRequest(galeryUrl, clientId, appName, this::displayPicture)
+    }
+
+    fun AssignFav (response: Response) {
+        val data = JSONObject(response.body()?.string())
+        val items = data.getJSONArray("data")
+
+        for (i in 0 until items.length()) {
+            val item = items.getJSONObject(i)
+            if (item.getBoolean("is_album"))
+                fav.add(item.getString("cover"))
+            else
+                fav.add(item.getString("id"))
+        }
     }
 
     fun displayPicture(response: Response) {
@@ -100,6 +138,37 @@ class MainActivity : AppCompatActivity() {
         }
         runOnUiThread { render(photos) }
     }
+
+    private fun favHandler(id: String)
+    {
+        val tmp = CheckFav()
+        /*for (i in 0 until fav.size) {
+            if (id == fav[i]) {
+                this.findViewById<CheckBox>(R.id.favBox)?.isChecked
+                return
+            }
+        }*/
+        if (previous == "")
+            previous = id
+        else {
+            tmp.box =  this.findViewById<CheckBox>(R.id.favBox)
+            tmp.id = previous
+            previous = id
+            allCheckBox.add(tmp)
+        }
+
+        for (i in 0 until allCheckBox.size) {
+            allCheckBox[i].box?.setOnClickListener(View.OnClickListener {
+                request.AddToMyFav(mainActivityInstance, allCheckBox[i].id, this::printerror)
+            })
+        }
+    }
+
+    fun printerror(response: Response)
+    {
+        println("AND THE REPONSE IS = $response")
+    }
+
 
     fun render(photos: ArrayList<ImgurRequest.Photo>) {
         val rv = findViewById<RecyclerView>(R.id.rv_of_photos)
@@ -125,7 +194,13 @@ class MainActivity : AppCompatActivity() {
                             photos[position].id + ".jpg"
                 ).into(holder.photo)
                 holder.title?.text = photos[position].title
+
+                if (Username != "") {
+                    findViewById<CheckBox>(R.id.favBox)?.visibility = View.VISIBLE
+                    photos[position].id?.let { favHandler(it) }
+                }
             }
+
             override fun getItemCount():Int {
                 return photos.size
             }
