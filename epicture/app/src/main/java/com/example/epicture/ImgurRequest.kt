@@ -60,4 +60,23 @@ class ImgurRequest
             }
         })
     }
+
+    fun getAccountImage(accountActivityInstance: Account, url: String ,callback : (response : Response) -> Unit) {
+
+        httpClient = OkHttpClient.Builder().build()
+        val request = Request.Builder()
+            .url(url)
+            .header("Authorization", "Bearer ${accountActivityInstance.accessToken}")
+            .header("User-Agent", "epicture")
+            .build()
+        httpClient.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("GET REQUEST", "An error has occurred $e")
+            }
+            @Override
+            override fun onResponse(call: Call, response: Response) {
+                callback(response)
+            }
+        })
+    }
 }

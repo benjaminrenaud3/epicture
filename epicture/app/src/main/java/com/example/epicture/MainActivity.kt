@@ -67,8 +67,12 @@ class MainActivity : AppCompatActivity() {
                 val monIntent: Intent = Intent(this, Webview::class.java)
                 startActivity(monIntent)
             }
-            val view = Intent(this, Webview::class.java)
-            startActivity(view)
+            else {
+                val monIntent: Intent = Intent(this, Account::class.java)
+                monIntent.putExtra("AccessToken", accessToken)
+                monIntent.putExtra("Username", Username)
+                startActivity(monIntent)
+            }
         }
 
         val upload_intent = Intent(this, ImgurUploader::class.java)

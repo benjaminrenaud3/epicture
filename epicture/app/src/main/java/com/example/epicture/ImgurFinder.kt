@@ -19,7 +19,7 @@ class ImgurFinder {
         )
     }
 
-    fun SearchFav(mainActivityInstance: MainActivity, callback: (response: Response) -> Unit) {
+    /*fun SearchFav(mainActivityInstance: MainActivity, callback: (response: Response) -> Unit) {
         val url = "https://api.imgur.com/3/account/${mainActivityInstance.Username}/favorites/1"
         var httpClient = OkHttpClient()
 
@@ -39,5 +39,5 @@ class ImgurFinder {
                 callback(response)
             }
         })
-    }
+    }*/
 }
